@@ -154,7 +154,7 @@ const handleDragOver = (event: DragEvent) => {
   event.preventDefault();
   event.stopPropagation();
 
-  const rect = event.currentTarget!.getBoundingClientRect();
+  const rect = (event.currentTarget as HTMLElement)!.getBoundingClientRect();
   const y = event.clientY - rect.top;
   const x = event.clientX - rect.left;
 
@@ -202,7 +202,10 @@ const handleDragLeave = (event: DragEvent) => {
   event.stopPropagation();
 
   // Only hide when leaving the container completely
-  if (!event.currentTarget?.contains(event.relatedTarget as Node)) {
+  if (
+    event.currentTarget &&
+    !(event.currentTarget as HTMLElement).contains(event.relatedTarget as Node)
+  ) {
     isDragOver.value = false;
     hideDropIndicator();
   }

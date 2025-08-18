@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, inject } from "vue";
+import { ref } from "vue";
 import { useDragDrop, type ComponentItem } from "../composables/useDragDrop";
 import CanvasElement from "./CanvasElement.vue";
 
@@ -125,7 +125,11 @@ const handleDragEnter = (event: DragEvent) => {
 const handleDragLeave = (event: DragEvent) => {
   event.preventDefault();
   // Only hide when leaving the canvas completely
-  if (!event.currentTarget?.contains(event.relatedTarget as Node)) {
+  if (
+    event.currentTarget &&
+    (event.currentTarget as Element).contains(event.relatedTarget as Node) ===
+      false
+  ) {
     isDragOver.value = false;
   }
 };
